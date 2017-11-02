@@ -3,7 +3,9 @@
     "description": "Background display queue statistics",
     "type": "yii2-extension",
     "require": {
-        "yiisoft/yii2": "^2.0"
+        "yiisoft/yii2": "^2.0",
+        "yiisoft/yii2-queue": "^2.0",
+        "yiisoft/yii2-redis": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
@@ -18,7 +20,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "graychen\\yii2\\queue\\backend\\": "src"
+            "graychen\\yii2\\queue\\backend\\": "src",
+            "graychen\\yii2\\queue\\backend\\tests\\": "tests"
         }
     }
 }
