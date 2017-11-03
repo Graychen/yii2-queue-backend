@@ -4,6 +4,7 @@ namespace graychen\yii2\queue\backend\jobs;
 
 use Yii;
 use yii\queue\redis\Queue;
+use graychen\yii2\queue\backend\models\Queue as QueueDb;
 
 abstract class Job extends JobAbstract
 {
@@ -11,7 +12,16 @@ abstract class Job extends JobAbstract
     public function __construct()
     {
         Yii::$app->queue->on(Queue::EVENT_AFTER_PUSH, function ($event) {
-            var_dump(1111111111111);
+            $queue = new QueueDb();
+            $queue->name=$this->getName();
+            var_dump($queue->name);
+            $queue->catalog=$this->getCatalog();
+            var_dump($queue->catalog);
+            $queue->description=$this->getDescription();
+            var_dump($queue->description);
+            $queue->execTime=$this->getExecTime();
+            var_dump($queue->execTime);
+            $this->save();
         });
     }
 

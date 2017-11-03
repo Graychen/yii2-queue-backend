@@ -1,176 +1,91 @@
 <?php
-
 namespace graychen\yii2\queue\backend\models;
 
 use Yii;
-use yii\base\Model;
-use yii\di\Instance;
-use yii\queue\serializers\PhpSerializer;
-use yii\queue\serializers\Serializer;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
-class Queue extends Model
+class Queue extends ActiveRecord
 {
     /**
-     * @see Queue::isWaiting()
+     * @inheritdoc
      */
-    const STATUS_WAITING = 1;
+    public static function tableName()
+    {
+        return '{{%queue}}';
+    }
+
     /**
-     * @see Queue::isReserved()
+     * @inheritdoc
      */
-    const STATUS_RESERVED = 2;
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ]
+        ];
+    }
+
     /**
-     * @see Queue::isDone()
+     * @inheritdoc
      */
-    const STATUS_DONE = 3;
+    public function rules()
+    {
+        return [
+            [['queue_id', 'catalog', 'name', 'description'], 'required']
+        ];
+    }
+
     /**
-     * @var Serializer|array
+     * @inheritdoc
      */
-    public $serializer = PhpSerializer::class;
-
-    public $prefix;
-
-    public function __construct(array $config = [])
+    public function attributeLabels()
     {
-        $this->getPrefix();
-        $this->serializer = Instance::ensure($this->serializer, Serializer::class);
-        parent::__construct($config);
+        return [
+            'id' => Yii::t('app/queue','ID'),
+            'queue_id' => Yii::t('app/queue','队列id'),
+            'catalog' => Yii::t('app/queue','类别'),
+            'name' => Yii::t('app/queue','任务名称'),
+            'description' => Yii::t('app/queue','详请信息'),
+            'exec_time' => Yii::t('app/queue','执行时间'),
+            'status' => Yii::t('app/queue','状态:0 未执行;1 成功;-1 失败'),
+            'created_at' => Yii::t('app/queue','队列创建时间'),
+            'updated_at' => Yii::t('app/queue','队列执行时间')
+        ];
     }
 
-    public function setPrefix()
+    public function fields()
     {
-        $this->prefix=Yii::$app->queue->channel;
+        $fields = parent::fields();
+
     }
 
-
-    public function getPrefix()
+    public function beforeValidate()
     {
-        $this->setPrefix();
-        return $this->prefix;
+
+        return parent::beforeValidate();
     }
 
-    public function setWaiting()
-    {
-        $this->waiting=Yii::$app->queue->redis->llen("$this->prefix.waiting");
-    }
-
-    public function getWaiting()
-    {
-        $this->setWaiting();
-        return $this->waiting;
-    }
-
-    public function setDelayed()
-    {
-        $this->delayed = Yii::$app->queue->redis->zcount("$this->prefix.delayed", '-inf', '+inf');
-    }
-
-    public function getDelayed()
-    {
-        $this->setDelayed();
-        return $this->delayed;
-    }
-
-    public function setReserved()
-    {
-        $this->reserved=Yii::$app->queue->redis->zcount("$this->prefix.reserved", '-inf', '+inf');
-    }
-
-    public function getReserved()
-    {
-        $this->setReserved();
-        return $this->reserved;
-    }
-
-    public function setTotal()
-    {
-        $this->total=Yii::$app->queue->redis->get("$this->prefix.message_id");
-    }
-
-    public function getTotal()
-    {
-        $this->setTotal();
-        return $this->total;
-    }
-
-    public function setDone()
-    {
-        $this->done=$this->total - $this->waiting - $this->delayed - $this->reserved;
-    }
-
-    public function getDone()
-    {
-        $this->setDone();
-        return $this->done;
-    }
-
-    public function getWorkInfo()
-    {
-        $workers = [];
-        $data = Yii::$app->queue->redis->clientList();
-        foreach (explode("\n", trim($data)) as $line) {
-            $client = [];
-            foreach (explode(' ', trim($line)) as $pair) {
-                list($key, $value) = explode('=', $pair, 2);
-                $client[$key] = $value;
-            }
-
-            if (isset($client['name']) && strpos($client['name'], Yii::$app->queue->channel . '.worker') === 0) {
-                $workers[$client['name']] = $client;
-            }
-        }
-        return $workers;
-    }
-
-    public function getWaitContent()
-    {
-        $waitContent=Yii::$app->queue->redis->lrange("$this->prefix.waiting", 0, 10);
-        return $waitContent;
-    }
-
-    public function getReservedContent()
-    {
-        return Yii::$app->queue->redis->zrange("$this->prefix.reserved", 0, -1);
-    }
-
-    public function getDelayedContent()
-    {
-        return Yii::$app->queue->redis->zrange("$this->prefix.delayed", 0, -1);
-    }
-
-    public function getMessage($id)
-    {
-        $message=Yii::$app->queue->redis->hget("$this->prefix.messages", $id);
-        $strMessage=ltrim($message, '300;');
-        return $this->serializer->unserialize($strMessage);
-    }
-
-    public function getAttempt($id)
-    {
-        $attempt=Yii::$app->queue->redis->hget("$this->prefix.attempt", $id);
-        $strAttempt=ltrim($attempt, '300;');
-        return $this->serializer->unserialize($strAttempt);
-    }
-
-
-    /** 得到执行时间
-     * @param $id todo
+    /**
+     * @inheritdoc
      */
-    public function getExecutionTime($id)
+    public function beforeSave($insert)
     {
+
+        return parent::beforeSave($insert);
     }
 
-    /** 得到队列的状态
-     * @param $id
-     * @return int
-     */
-    public function status($id)
+    public function beforeDelete()
     {
-        if (Yii::$app->queue->redis->hexists("$this->prefix.attempts", $id)) {
-            return self::STATUS_RESERVED;
-        } elseif (Yii::$app->queue->redis->hexists("$this->prefix.messages", $id)) {
-            return self::STATUS_WAITING;
-        } else {
-            return self::STATUS_DONE;
-        }
+        return parent::beforeDelete();
     }
+
+    public function afterDelete()
+    {
+
+        parent::afterDelete();
+    }
+
+
 }
