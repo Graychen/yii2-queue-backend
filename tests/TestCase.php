@@ -1,6 +1,7 @@
 <?php
 namespace graychen\yii2\queue\backend\tests;
 use Yii;
+use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 /**
  * This is the base class for all yii framework unit tests.
@@ -11,15 +12,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->mockApplication();
+        $this->createTestDbData();
     }
 
     protected function tearDown()
     {
         parent::tearDown();
+        $this->destroyTestDbData();
         $this->destroyApplication();
     }
-
-
 
     protected function mockApplication($config = [], $appClass = '\yii\console\Application')
     {
@@ -28,12 +29,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'basePath' => __DIR__,
             'vendorPath' => $this->getVendorPath(),
             'bootstrap' => [
-                'queue',
+                'queue'
             ],
             'components' => [
                 'db' => [
                     'class' => 'yii\db\Connection',
-                    'dsn' => 'sqlite::memory:'
+                    'dsn' => 'mysql:host=localhost:3306;dbname=test',
+                    'username' => 'root',
+                    'password' => '206065',
+                    'tablePrefix' => 'tb_'
                 ],
                 'i18n' => [
                     'translations' => [
@@ -81,4 +85,42 @@ class TestCase extends \PHPUnit_Framework_TestCase
         \Yii::$app = null;
     }
 
+    protected function destroyTestDbData()
+    {
+        $db = Yii::$app->getDb();
+        $db->createCommand()->dropTable('tb_queue')->execute();
+    }
+
+    protected function createTestDbData()
+    {
+        //Yii::$app->runAction('/migrate/up', ['migrationPath' => '@migrate']);
+        $db = Yii::$app->getDb();
+        $sql = <<<EOF
+            -- auto-generated definition
+            create table tb_queue
+            (
+                id bigint auto_increment
+                    primary key,
+                queue_id int null,
+                catalog varchar(10) null,
+                name varchar(20) null,
+                description text null,
+                exec_time int null,
+                status smallint null,
+                created_at int null,
+                updated_at int null
+            )
+            ;
+            
+            create index idx_queue
+                on tb_queue (queue)
+            ;
+EOF;
+        try {
+            $db->createCommand($sql)->execute();
+        } catch (Exception $e) {
+            return;
+        }
+    }
 }
+
