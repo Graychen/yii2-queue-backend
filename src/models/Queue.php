@@ -33,7 +33,7 @@ class Queue extends ActiveRecord
     public function rules()
     {
         return [
-            [['queue_id', 'catalog', 'name', 'description'], 'required']
+            [['queue_id', 'catalog', 'name', 'description','exec_time'], 'required']
         ];
     }
 
