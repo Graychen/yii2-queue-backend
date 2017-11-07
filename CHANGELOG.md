@@ -1,5 +1,11 @@
 <a name="1.0.0"></a>
-# [1.0.0](https://github.com/Graychen/yii2-queue-backend/compare/v0.1.1...v1.0.0) (2017-11-02)
+# [1.0.0](https://github.com/Graychen/yii2-queue-backend/compare/v0.1.1...v1.0.0) (2017-11-06)
+
+
+### Features
+
+* **src:** 添加事件测试 ([fbf11ef](https://github.com/Graychen/yii2-queue-backend/commit/fbf11ef))
+* **src,tests:** 添加数据文件和jobs目录 ([6f3901f](https://github.com/Graychen/yii2-queue-backend/commit/6f3901f))
 
 
 

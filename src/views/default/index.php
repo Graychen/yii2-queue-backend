@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
+use yii\grid\GridView;
 
 $this->title = '队列统计';
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,7 +27,7 @@ $this->registerCss($css);
         <button type="button" class="btn btn-warning">延迟(delayed):<span class="badge"><?= $queue->delayed ?></span></button>
         <button type="button" class="btn btn-default">保留(reserved):<span class="badge"><?= $queue->reserved ?></span></button>
     </div>
-    <h2 class="page-title">队列详情</h2>
+    <h2 class="page-title">队列信息</h2>
     <div id="w1" class="grid-view">
         <table class="table table-striped table-bordered"><thead>
             <tr>
@@ -59,45 +60,49 @@ $this->registerCss($css);
             </tbody>
         </table>
     </div>
-    <h2 class="page-title">延时队列信息</h2>
-    <div id="w1" class="grid-view">
-        <table class="table table-striped table-bordered"><thead>
-            <tr>
-                <th>队列id</th>
-                <th>队列状态</th>
-                <th>队列内容</th>
-            </thead>
-            <tbody>
-            <?php foreach ($queue->getDelayedContent() as $value) { ?>
-                <tr>
-                    <td>
-                    <?= $value?>
-                    </td>
-                    <td>
-                    <?php 
-                    switch ($queue->status($value)) {
+    <h2 class="page-title">队列详情</h2>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'queue_id',
+            'catalog',
+            'name',
+            //'description',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    switch ($status=$model->getStatus($model->queue_id)){
+                        case 0:
+                            return "未执行";
+                            break;
                         case 1:
-                        echo "等待(isWaiting)";
-                        break;
-                        case 2:
-                        echo "保留(isReserved)";
-                        break;
-                        case 3:
-                        echo "完成(isDone)";
-                        break;
-                        default:
-                        echo "状态未知";
-                    } 
-                    ?>
-                    </td>
-                    <td>
-                    <?php print_r($queue->getMessage($value))?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-    </div>
+                            return "成功";
+                            break;
+                        case -1:
+                            return "失败";
+                            break;
+                    }
+                }
+            ],
+            [
+                'attribute' => 'created_at',
+                'value' => function ($model) {
+                    return date("Y-m-d H:i:s", $model->created_at);
+                }
+            ],
+            [
+                'attribute' => 'execution_time',
+                'value' => function ($model) {
+                    return date("Y-m-d H:i:s", $model->getExecutionTime());
+                }
+            ],
+            ['class' => 'yii\grid\ActionColumn',
+                'template'=>'{view}'
+            ]
+        ],
+    ]); ?>
+
     <?php ActiveForm::end(); ?>
 
 

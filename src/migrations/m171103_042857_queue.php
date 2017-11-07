@@ -18,7 +18,6 @@ class m171103_042857_queue extends Migration
             'name' => $this->string()->notNull()->comment('任务名称'),
             'description' => $this->text()->comment('详请信息'),
             'exec_time' => $this->integer()->comment('执行时间'),
-            'status' => $this->smallInteger()->comment('状态:0 未执行;1 成功;-1 失败'),
             'created_at' => $this->integer()->comment('队列创建时间'),
             'updated_at' => $this->integer()->comment('队列执行时间'),
         ], $tableOptions);
