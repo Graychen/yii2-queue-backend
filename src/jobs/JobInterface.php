@@ -6,6 +6,6 @@ Interface JobInterface
 {
     public function getName();
     public function getCatalog();
-   // public function getDescription();
+    public function getDescription();
 
 }

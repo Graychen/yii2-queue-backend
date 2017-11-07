@@ -15,7 +15,7 @@ abstract class Job extends Object implements JobInterface
             $queue = new QueueDb();
             $queue->name=$this->getName();
             $queue->catalog=$this->getCatalog();
-            $queue->description=json_encode($event->job);
+            $queue->description=json_encode($this->getDescription());
             $queue->exec_time=$event->delay;
             $queue->queue_id=$event->id;
             $queue->save();
@@ -23,14 +23,18 @@ abstract class Job extends Object implements JobInterface
     }
 
     /** name (任务名称)
-     * @return mixed
+     * @return string
      */
     abstract function getName();
 
     /** catalog (类别: 推送任务, 上传报告)
-     * @return mixed
+     * @return string
      */
     abstract function getCatalog();
 
+    /** description (队列详情)
+     * @return string
+     */
+    abstract function getDescription();
 
 }

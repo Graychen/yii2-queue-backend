@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="doctor-view">
 
-
-
     <?= DetailView::widget([
         'model' => $model,
             'attributes' => [
