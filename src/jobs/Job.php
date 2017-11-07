@@ -1,61 +1,36 @@
 <?php
 
 namespace graychen\yii2\queue\backend\jobs;
-
-use Yii;
-use yii\queue\redis\Queue;
+use yii\base\Object;
+use yii;
+use yii\queue\Queue;
 use graychen\yii2\queue\backend\models\Queue as QueueDb;
 
-abstract class Job extends JobAbstract
+abstract class Job extends Object implements JobInterface
 {
-
     public function __construct()
     {
         Yii::$app->queue->on(Queue::EVENT_AFTER_PUSH, function ($event) {
+            $id=$event->id;
             $queue = new QueueDb();
             $queue->name=$this->getName();
-            var_dump($queue->name);
             $queue->catalog=$this->getCatalog();
-            var_dump($queue->catalog);
-            $queue->description=$this->getDescription();
-            var_dump($queue->description);
-            $queue->execTime=$this->getExecTime();
-            var_dump($queue->execTime);
-            $this->save();
+            $queue->description=json_encode($event->job);
+            $queue->exec_time=$event->delay;
+            $queue->queue_id=$event->id;
+            $queue->save();
         });
     }
 
     /** name (任务名称)
      * @return mixed
      */
-    public function getName()
-    {
-        return $this->name;
-    }
+    abstract function getName();
 
     /** catalog (类别: 推送任务, 上传报告)
      * @return mixed
      */
-    public function getCatalog()
-    {
-        return $this->catalog;
-    }
-
-    /** description (详情信息)
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return mixed  int  时间戳
-     */
-    public function getExecTime()
-    {
-        return $this->execTime;
-    }
+    abstract function getCatalog();
 
 
 }

@@ -33,7 +33,7 @@ class Queue extends ActiveRecord
     public function rules()
     {
         return [
-            [['queue_id', 'catalog', 'name', 'description'], 'required']
+            [['queue_id', 'catalog', 'name', 'description','exec_time'], 'required']
         ];
     }
 
@@ -49,42 +49,32 @@ class Queue extends ActiveRecord
             'name' => Yii::t('app/queue','任务名称'),
             'description' => Yii::t('app/queue','详请信息'),
             'exec_time' => Yii::t('app/queue','执行时间'),
-            'status' => Yii::t('app/queue','状态:0 未执行;1 成功;-1 失败'),
+            'status' => Yii::t('app/queue','状态'),
             'created_at' => Yii::t('app/queue','队列创建时间'),
-            'updated_at' => Yii::t('app/queue','队列执行时间')
+            'updated_at' => Yii::t('app/queue','队列修改时间'),
+            'execution_time' => Yii::t('app/queue','队列执行时间')
         ];
     }
 
     public function fields()
     {
         $fields = parent::fields();
-
     }
 
-    public function beforeValidate()
+    public function getExecutionTime()
     {
-
-        return parent::beforeValidate();
+        return $this->exec_time+$this->created_at;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function beforeSave($insert)
-    {
-
-        return parent::beforeSave($insert);
-    }
-
-    public function beforeDelete()
-    {
-        return parent::beforeDelete();
-    }
-
-    public function afterDelete()
-    {
-
-        parent::afterDelete();
+    public function getStatus($id){
+        if(Yii::$app->queue->isWaiting($id) || Yii::$app->queue->isReserved($id)){
+            $status=0;
+        }elseif(Yii::$app->queue->isDone($id)){
+            $status=1;
+        }else{
+            $status=-1;
+        }
+        return $status;
     }
 
 
