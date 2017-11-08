@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'description',
                     'value' => function ($model) {
-                        return VarDumper::dumpAsString(json_decode($model->description));
+                        return VarDumper::dumpAsString($model->description);
                     }
                 ]
             ],
