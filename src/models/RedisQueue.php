@@ -8,6 +8,15 @@ use yii\di\Instance;
 use yii\queue\serializers\PhpSerializer;
 use yii\queue\serializers\Serializer;
 
+/**
+ * Class RedisQueue
+ * @package graychen\yii2\queue\backend\models
+ * @property integer $total
+ * @property integer $done
+ * @property integer $waiting
+ * @property integer $delayed
+ * @property integer $reserved
+ */
 class RedisQueue extends Model
 {
     /**
@@ -38,7 +47,7 @@ class RedisQueue extends Model
 
     public function setPrefix()
     {
-        $this->prefix=Yii::$app->queue->channel;
+        $this->prefix = Yii::$app->queue->channel;
     }
 
 
@@ -50,7 +59,7 @@ class RedisQueue extends Model
 
     public function setWaiting()
     {
-        $this->waiting=Yii::$app->queue->redis->llen("$this->prefix.waiting");
+        $this->waiting = Yii::$app->queue->redis->llen("$this->prefix.waiting");
     }
 
     public function getWaiting()
@@ -72,7 +81,7 @@ class RedisQueue extends Model
 
     public function setReserved()
     {
-        $this->reserved=Yii::$app->queue->redis->zcount("$this->prefix.reserved", '-inf', '+inf');
+        $this->reserved = Yii::$app->queue->redis->zcount("$this->prefix.reserved", '-inf', '+inf');
     }
 
     public function getReserved()
@@ -83,7 +92,7 @@ class RedisQueue extends Model
 
     public function setTotal()
     {
-        $this->total=Yii::$app->queue->redis->get("$this->prefix.message_id");
+        $this->total = Yii::$app->queue->redis->get("$this->prefix.message_id");
     }
 
     public function getTotal()
@@ -94,7 +103,7 @@ class RedisQueue extends Model
 
     public function setDone()
     {
-        $this->done=$this->total - $this->waiting - $this->delayed - $this->reserved;
+        $this->done = $this->total - $this->waiting - $this->delayed - $this->reserved;
     }
 
     public function getDone()
@@ -123,7 +132,7 @@ class RedisQueue extends Model
 
     public function getWaitContent()
     {
-        $waitContent=Yii::$app->queue->redis->lrange("$this->prefix.waiting", 0, 10);
+        $waitContent = Yii::$app->queue->redis->lrange("$this->prefix.waiting", 0, 10);
         return $waitContent;
     }
 
@@ -139,15 +148,15 @@ class RedisQueue extends Model
 
     public function getMessage($id)
     {
-        $message=Yii::$app->queue->redis->hget("$this->prefix.messages", $id);
-        $strMessage=ltrim($message, '300;');
+        $message = Yii::$app->queue->redis->hget("$this->prefix.messages", $id);
+        $strMessage = ltrim($message, '300;');
         return $this->serializer->unserialize($strMessage);
     }
 
     public function getAttempt($id)
     {
-        $attempt=Yii::$app->queue->redis->hget("$this->prefix.attempt", $id);
-        $strAttempt=ltrim($attempt, '300;');
+        $attempt = Yii::$app->queue->redis->hget("$this->prefix.attempt", $id);
+        $strAttempt = ltrim($attempt, '300;');
         return $this->serializer->unserialize($strAttempt);
     }
 

@@ -17,18 +17,48 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="doctor-view">
 
     <?= DetailView::widget([
-        'model' => $model,
+            'model' => $model,
             'attributes' => [
-                'id',
+                'name',
+                'catalog',
+                [
+                    'attribute' => 'status',
+                    'value' => function ($model) {
+                        switch ($status = $model->getStatus($model->queue_id)) {
+                            case 0:
+                                return "未执行";
+                                break;
+                            case 1:
+                                return "成功";
+                                break;
+                            case -1:
+                                return "失败";
+                                break;
+                        }
+                    }
+                ],
+                [
+                    'attribute' => 'created_at',
+                    'value' => function ($model) {
+                        return date("Y-m-d H:i:s", $model->created_at);
+                    }
+                ],
+                [
+                    'attribute' => 'execution_time',
+                    'value' => function ($model) {
+                        return date("Y-m-d H:i:s", $model->getExecutionTime());
+                    }
+                ],
                 [
                     'attribute' => 'description',
+                    'format' => 'html',
                     'value' => function ($model) {
-                        return VarDumper::dumpAsString($model->description);
+                        return is_array($model->description) ? VarDumper::dumpAsString($model->description) : $model->description;
                     }
                 ]
             ],
 
-    ]
+        ]
     ) ?>
 
 </div>
