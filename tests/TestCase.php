@@ -48,7 +48,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 ],
                 'redis' => [
                     'class' => 'yii\redis\Connection',
-                    'hostname' => 'redis',
+                    'hostname' => '127.0.0.1',
                     'port' => '6379',
                     'database' => 0,
                 ],
@@ -102,8 +102,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 id bigint auto_increment
                     primary key,
                 queue_id int null,
-                catalog varchar(10) null,
-                name varchar(20) null,
+                catalog varchar(50) null,
+                name varchar(50) null,
                 description text null,
                 exec_time int null,
                 status smallint null,
@@ -122,5 +122,6 @@ EOF;
             return;
         }
     }
+
 }
 

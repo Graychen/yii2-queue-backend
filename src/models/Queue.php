@@ -56,11 +56,6 @@ class Queue extends ActiveRecord
         ];
     }
 
-    public function fields()
-    {
-        $fields = parent::fields();
-    }
-
     public function getExecutionTime()
     {
         return $this->exec_time+$this->created_at;

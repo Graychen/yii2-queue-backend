@@ -1,17 +1,18 @@
 <?php
 
-namespace graychen\yii2\queue\backend\tests;
+namespace graychen\yii2\queue\backend\tests\models;
 
-use graychen\yii2\queue\backend\models\Queue;
+use graychen\yii2\queue\backend\models\RedisQueue;
+use graychen\yii2\queue\backend\tests\TestCase;
 
-class QueueTest extends TestCase
+class RedisQueueTest extends TestCase
 {
     public $model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->model=new Queue;
+        $this->model=new RedisQueue;
     }
 
     protected function tearDown()
@@ -26,5 +27,6 @@ class QueueTest extends TestCase
 
     public function testGetWaiting()
     {
+        var_dump($this->model->getWaiting());
     }
 }
