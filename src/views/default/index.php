@@ -5,10 +5,8 @@ use yii\grid\GridView;
 
 $this->title = '队列统计';
 $this->params['breadcrumbs'][] = $this->title;
-$css = <<<CSS
-
-CSS;
-$this->registerCss($css);
+/* @var $dataProvider \yii\data\ActiveDataProvider */
+/* @var $queue \graychen\yii2\queue\backend\models\RedisQueue */
 ?>
 <div class="appointment-order-index">
     <?php $form = ActiveForm::begin([
@@ -19,17 +17,23 @@ $this->registerCss($css);
     ]); ?>
 
     <ul class="nav nav-pills" role="tablist">
-    <button type="button" class="btn btn-primary btn-lg">总数(total):<span class="badge"><?= $queue->total ?></span></button>
-    <button type="button" class="btn btn-success btn-lg">完成(done):<span class="badge"><?= $queue->done ?></span></button>
+        <button type="button" class="btn btn-primary btn-lg">总数(total):<span class="badge"><?= $queue->total ?></span>
+        </button>
+        <button type="button" class="btn btn-success btn-lg">完成(done):<span class="badge"><?= $queue->done ?></span>
+        </button>
     </ul>
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-danger">等待(waiting)：<span class="badge"><?= $queue->waiting ?></span></button>
-        <button type="button" class="btn btn-warning">延迟(delayed):<span class="badge"><?= $queue->delayed ?></span></button>
-        <button type="button" class="btn btn-default">保留(reserved):<span class="badge"><?= $queue->reserved ?></span></button>
+        <button type="button" class="btn btn-danger">等待(waiting)：<span class="badge"><?= $queue->waiting ?></span>
+        </button>
+        <button type="button" class="btn btn-warning">延迟(delayed):<span class="badge"><?= $queue->delayed ?></span>
+        </button>
+        <button type="button" class="btn btn-default">保留(reserved):<span class="badge"><?= $queue->reserved ?></span>
+        </button>
     </div>
     <h2 class="page-title">队列信息</h2>
     <div id="w1" class="grid-view">
-        <table class="table table-striped table-bordered"><thead>
+        <table class="table table-striped table-bordered">
+            <thead>
             <tr>
                 <th>队列ID</th>
                 <th>队列地址</th>
@@ -41,19 +45,19 @@ $this->registerCss($css);
             <?php foreach ($queue->getWorkInfo() as $key => $value) { ?>
                 <tr>
                     <td>
-                        <?= $value[id] ?>
+                        <?= $value['id'] ?>
                     </td>
                     <td>
-                        <?= $value[addr] ?>
+                        <?= $value['addr'] ?>
                     </td>
                     <td>
-                        <?= $value[name] ?>
+                        <?= $value['name'] ?>
                     </td>
                     <td>
-                        <?= $value[fd] ?>
+                        <?= $value['fd'] ?>
                     </td>
                     <td>
-                        <?= $value[age] ?>
+                        <?= $value['age'] ?>
                     </td>
                 </tr>
             <?php } ?>
@@ -65,14 +69,12 @@ $this->registerCss($css);
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'queue_id',
             'catalog',
             'name',
-            //'description',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
-                    switch ($status=$model->getStatus($model->queue_id)){
+                    switch ($status = $model->getStatus($model->queue_id)) {
                         case 0:
                             return "未执行";
                             break;
@@ -98,7 +100,7 @@ $this->registerCss($css);
                 }
             ],
             ['class' => 'yii\grid\ActionColumn',
-                'template'=>'{view}'
+                'template' => '{view}'
             ]
         ],
     ]); ?>

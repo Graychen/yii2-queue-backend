@@ -11,24 +11,22 @@ class DefaultController extends Controller
 {
     public function actionIndex()
     {
-        $queue=new RedisQueue();
-        $query=Queue::find();
-        $dataProvider=new ActiveDataProvider([
+        $queue = new RedisQueue();
+        $query = Queue::find();
+        $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination'=>[
-                'pageSize' => 20,
-            ],
-            'sort'=>[
-                'defaultOrder'=>[
-                    'queue_id'=>SORT_DESC
+            'sort' => [
+                'defaultOrder' => [
+                    'queue_id' => SORT_DESC
                 ]
-             ]
+            ]
         ]);
-        return $this->render('index', ['queue'=>$queue,'dataProvider'=>$dataProvider]);
+        return $this->render('index', ['queue' => $queue, 'dataProvider' => $dataProvider]);
     }
 
-    public function actionView($id){
-        $model = Queue::find()->select(['description'])->where([id=>$id])->one();
-        return $this->render('view',['model'=>$model]);
+    public function actionView($id)
+    {
+        $model = Queue::find()->where(['id' => $id])->one();
+        return $this->render('view', ['model' => $model]);
     }
 }
