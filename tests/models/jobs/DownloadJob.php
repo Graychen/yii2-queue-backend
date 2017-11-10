@@ -29,5 +29,4 @@ class DownloadJob extends Job
         return '下载url:'.$this->url.
             '下载文件:'.$this->file;
     }
-
 }

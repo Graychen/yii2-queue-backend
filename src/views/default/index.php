@@ -61,7 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $value['age'] ?>
                     </td>
                 </tr>
-            <?php }
+            <?php
+    }
         ?>
             </tbody>
         </table>

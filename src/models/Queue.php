@@ -48,7 +48,7 @@ class Queue extends ActiveRecord
             'catalog' => Yii::t('app/queue', '类别'),
             'name' => Yii::t('app/queue', '任务名称'),
             'description' => Yii::t('app/queue', '详请信息'),
-            'exec_time' => Yii::t('app/queue','执行时间'),
+            'exec_time' => Yii::t('app/queue', '执行时间'),
             'status' => Yii::t('app/queue', '状态'),
             'created_at' => Yii::t('app/queue', '队列创建时间'),
             'updated_at' => Yii::t('app/queue', '队列修改时间'),
@@ -63,9 +63,9 @@ class Queue extends ActiveRecord
 
     public function getStatus($id)
     {
-        if(Yii::$app->queue->isWaiting($id) || Yii::$app->queue->isReserved($id)){
+        if (Yii::$app->queue->isWaiting($id) || Yii::$app->queue->isReserved($id)) {
             $status=0;
-        }elseif(Yii::$app->queue->isDone($id)) {
+        } elseif (Yii::$app->queue->isDone($id)) {
             $status=1;
         } else {
             $status=-1;

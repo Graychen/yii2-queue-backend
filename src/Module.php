@@ -59,4 +59,4 @@ class Module extends BaseModule
     {
         return Yii::t('graychen/yii2/queue/backend/' . $category, $message, $params, $language);
     }
-    }
+}

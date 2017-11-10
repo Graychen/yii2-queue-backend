@@ -64,12 +64,11 @@ class QueueTest extends TestCase
             'url' => 'http://example.com/image.jpg',
             'file' => '/tmp/image.jpg',
         ]));
-       $this->assertEquals(0, $this->model->getStatus($id));
+        $this->assertEquals(0, $this->model->getStatus($id));
         $id_delay=Yii::$app->queue->delay(5 * 60)->push(new DownloadJob([
             'url' => 'http://example.com/image.jpg',
             'file' => '/tmp/image.jpg',
         ]));
         $this->assertEquals(0, $this->model->getStatus($id_delay));
     }
-
 }
