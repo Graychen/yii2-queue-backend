@@ -20,8 +20,18 @@
     ],
     "autoload": {
         "psr-4": {
-            "graychen\\yii2\\queue\\backend\\": "src",
+            "graychen\\yii2\\queue\\backend\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "graychen\\yii2\\queue\\backend\\tests\\": "tests"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
         }
     }
 }
