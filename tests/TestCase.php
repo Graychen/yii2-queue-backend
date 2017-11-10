@@ -52,8 +52,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 ],
                 'redis' => [
                     'class' => 'yii\redis\Connection',
-                    'hostname' => 'redis',
+                    'hostname' => 'localhost',
                     'port' => '6379',
+                    'password' => null,
                     'database' => 0
                 ],
                 'queue' => [
