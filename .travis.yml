@@ -13,6 +13,10 @@ cache:
     - $HOME/.composer/cache
     - vendor
 
+service:
+  - mysql
+  - redis-server
+
 install:
   - travis_retry composer self-update
   - composer config -g github-oauth.github.com dcb6b0049723eb6f56039b2d6389ac76eb29e352
@@ -21,6 +25,8 @@ install:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry mysql -e 'CREARE DATABASE test'
+
 
 script:
 - "./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
