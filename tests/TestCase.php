@@ -53,7 +53,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'class' => 'yii\redis\Connection',
                     'hostname' => '127.0.0.1',
                     'password' => null,
-                    'database' => 0
+                    'database' => redis
                 ],
                 'queue' => [
                     'class' => 'yii\queue\redis\Queue',
