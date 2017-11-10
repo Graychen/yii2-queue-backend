@@ -1,6 +1,7 @@
 <?php
 
 namespace graychen\yii2\queue\backend\jobs;
+
 use yii\base\BaseObject;
 use yii;
 use yii\queue\Queue;
@@ -25,16 +26,15 @@ abstract class Job extends BaseObject implements JobInterface
     /** name (任务名称)
      * @return string
      */
-    abstract function getName();
+    abstract public function getName();
 
     /** catalog (类别: 推送任务, 上传报告)
      * @return string
      */
-    abstract function getCatalog();
+    abstract public function getCatalog();
 
     /** description (队列详情)
      * @return string
      */
-    abstract function getDescription();
-
+    abstract public function getDescription();
 }

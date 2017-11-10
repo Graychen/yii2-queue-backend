@@ -29,23 +29,23 @@ class RedisQueueTest extends TestCase
     public function testGetDone()
     {
         $done=$this->model->getDone();
-        $this->assertEquals($done,$this->model->getTotal()-$this->model->getWaiting()-$this->model->getDelayed()-$this->model->getReserved());
+        $this->assertEquals($done, $this->model->getTotal()-$this->model->getWaiting()-$this->model->getDelayed()-$this->model->getReserved());
     }
 
     public function testGetWorkInfo()
     {
-        $this->assertSame([],$this->model->getWorkInfo());
+        $this->assertSame([], $this->model->getWorkInfo());
     }
 
     public function testGetMessage()
     {
-          $message=$this->model->getMessage(1);
-          $this->assertEquals('http://example.com/image.jpg',$message->url);
-          $this->assertEquals('/tmp/image.jpg',$message->file);
+        $message=$this->model->getMessage(1);
+        $this->assertEquals('http://example.com/image.jpg', $message->url);
+        $this->assertEquals('/tmp/image.jpg', $message->file);
     }
 
     public function testGetStatus()
     {
-          $this->assertEquals(1,$this->model->status(1));
+        $this->assertEquals(1, $this->model->status(1));
     }
 }

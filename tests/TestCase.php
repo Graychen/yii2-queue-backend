@@ -1,8 +1,10 @@
 <?php
 namespace graychen\yii2\queue\backend\tests;
+
 use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
+
 /**
  * This is the base class for all yii framework unit tests.
  */
@@ -11,6 +13,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->mockApplication();
         $this->mockWebApplication();
         $this->createTestDbData();
     }
@@ -18,11 +21,55 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->destroyTestDbData();
+        //$this->destroyTestDbData();
         $this->destroyWebApplication();
     }
 
-
+    protected function mockApplication($config = [], $appClass = '\yii\console\Application')
+    {
+        return new $appClass(ArrayHelper::merge([
+            'id' => 'testapp',
+            'basePath' => __DIR__,
+            'vendorPath' => $this->getVendorPath(),
+            'bootstrap' => [
+                'queue'
+            ],
+            'components' => [
+                'db' => [
+                    'class' => 'yii\db\Connection',
+                    'dsn' => 'mysql:host=localhost:3306;dbname=test',
+                    'username' => 'root',
+                    'password' => '',
+                    'tablePrefix' => 'tb_'
+                ],
+                'i18n' => [
+                    'translations' => [
+                        '*' => [
+                            'class' => 'yii\i18n\PhpMessageSource',
+                        ]
+                    ]
+                ],
+                'redis' => [
+                    'class' => 'yii\redis\Connection',
+                    'hostname' => '127.0.0.1',
+                    'password' => null,
+                    'database' => 0
+                ],
+                'queue' => [
+                    'class' => 'yii\queue\redis\Queue',
+                    'redis' => 'redis', // Redis connection component or its config
+                    'channel' => 'queue', // Queue channel key
+                    'as log' => 'yii\queue\LogBehavior'
+                ],
+            ],
+            'modules' => [
+                'queue-backend' => [
+                    'class' => 'graychen\yii2\queue\backend\Module',
+                    'controllerNamespace' => 'graychen\yii2\queue\backend\tests\controllers'
+                ]
+            ]
+        ], $config));
+    }
 
     protected function mockWebApplication($config = [], $appClass = '\yii\web\Application')
     {
@@ -38,7 +85,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'class' => 'yii\db\Connection',
                     'dsn' => 'mysql:host=localhost:3306;dbname=test',
                     'username' => 'root',
-                    'password' => '206065',
+                    'password' => '',
                     'tablePrefix' => 'tb_'
                 ],
                 'i18n' => [
@@ -51,8 +98,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'redis' => [
                     'class' => 'yii\redis\Connection',
                     'hostname' => '127.0.0.1',
-                    'port' => '6379',
-                    'database' => 0,
+                    'password' => null,
+                    'database' => 0
                 ],
                 'queue' => [
                     'class' => 'yii\queue\redis\Queue',
@@ -125,6 +172,4 @@ EOF;
             return;
         }
     }
-
 }
-

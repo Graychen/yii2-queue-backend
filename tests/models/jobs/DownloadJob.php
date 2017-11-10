@@ -1,7 +1,9 @@
 <?php
 
 namespace graychen\yii2\queue\backend\tests\models\jobs;
+
 use graychen\yii2\queue\backend\jobs\Job;
+
 class DownloadJob extends Job
 {
     public $url;
