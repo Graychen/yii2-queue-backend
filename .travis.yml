@@ -14,7 +14,10 @@ cache:
     - vendor
 
 service:
-  - mysql
+  - mysql:
+    database: test
+    username: root
+    encoding: utf8
   - redis-server
 
 install:
