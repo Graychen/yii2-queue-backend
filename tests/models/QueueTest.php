@@ -38,23 +38,23 @@ class QueueTest extends TestCase
     public function testAttributeLabels()
     {
         $labels=$this->model->attributeLabels();
-        $this->assertArrayHasKey('id',$labels);
-        $this->assertArrayHasKey('queue_id',$labels);
-        $this->assertArrayHasKey('catalog',$labels);
-        $this->assertArrayHasKey('name',$labels);
-        $this->assertArrayHasKey('description',$labels);
-        $this->assertArrayHasKey('exec_time',$labels);
-        $this->assertArrayHasKey('status',$labels);
-        $this->assertArrayHasKey('created_at',$labels);
-        $this->assertArrayHasKey('updated_at',$labels);
-        $this->assertArrayHasKey('execution_time',$labels);
+        $this->assertArrayHasKey('id', $labels);
+        $this->assertArrayHasKey('queue_id', $labels);
+        $this->assertArrayHasKey('catalog', $labels);
+        $this->assertArrayHasKey('name', $labels);
+        $this->assertArrayHasKey('description', $labels);
+        $this->assertArrayHasKey('exec_time', $labels);
+        $this->assertArrayHasKey('status', $labels);
+        $this->assertArrayHasKey('created_at', $labels);
+        $this->assertArrayHasKey('updated_at', $labels);
+        $this->assertArrayHasKey('execution_time', $labels);
     }
 
     public function testGetExecutionTime()
     {
-        $this->model->setAttribute('exec_time','1'); 
-        $this->model->setAttribute('created_at','2'); 
-        $this->assertEquals('3',$this->model->getExecutionTime());
+        $this->model->setAttribute('exec_time', '1');
+        $this->model->setAttribute('created_at', '2');
+        $this->assertEquals('3', $this->model->getExecutionTime());
     }
 
 
@@ -64,12 +64,12 @@ class QueueTest extends TestCase
             'url' => 'http://example.com/image.jpg',
             'file' => '/tmp/image.jpg',
         ]));
-       $this->assertEquals(0,$this->model->getStatus($id));
+       $this->assertEquals(0, $this->model->getStatus($id));
         $id_delay=Yii::$app->queue->delay(5 * 60)->push(new DownloadJob([
             'url' => 'http://example.com/image.jpg',
             'file' => '/tmp/image.jpg',
         ]));
-        $this->assertEquals(0,$this->model->getStatus($id_delay));
+        $this->assertEquals(0, $this->model->getStatus($id_delay));
     }
 
 }

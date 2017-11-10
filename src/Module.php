@@ -20,18 +20,18 @@ class Module extends BaseModule
      */
     public $sourceLanguage = 'en-US';
 
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
         $this->registerTranslations();
     }
 
-        /**
-         * Registers the translation files
-         */
+    /**
+     * Registers the translation files
+     */
     protected function registerTranslations()
     {
         Yii::$app->i18n->translations['graychen/yii2/queue/backend/*'] = [
@@ -44,17 +44,17 @@ class Module extends BaseModule
         ];
     }
 
-        /**
-         * Translates a message. This is just a wrapper of Yii::t
-         *
-         * @see Yii::t
-         *
-         * @param $category
-         * @param $message
-         * @param array $params
-         * @param null $language
-         * @return string
-         */
+    /**
+     * Translates a message. This is just a wrapper of Yii::t
+     *
+     * @see Yii::t
+     *
+     * @param $category
+     * @param $message
+     * @param array $params
+     * @param null $language
+     * @return string
+     */
     public static function t($category, $message, $params = [], $language = null)
     {
         return Yii::t('graychen/yii2/queue/backend/' . $category, $message, $params, $language);

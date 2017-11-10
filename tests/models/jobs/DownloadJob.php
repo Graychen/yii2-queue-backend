@@ -1,7 +1,9 @@
 <?php
 
 namespace graychen\yii2\queue\backend\tests\models\jobs;
+
 use graychen\yii2\queue\backend\jobs\Job;
+
 class DownloadJob extends Job
 {
     public $url;
@@ -27,4 +29,5 @@ class DownloadJob extends Job
         return '下载url:'.$this->url.
             '下载文件:'.$this->file;
     }
+
 }

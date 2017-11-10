@@ -7,7 +7,6 @@ use graychen\yii2\queue\backend\tests\models\jobs\DownloadJob;
 
 class DefaultControllerTest extends TestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -29,13 +28,13 @@ class DefaultControllerTest extends TestCase
         ];
         Yii::$app->request->queryParams = $param;
         $res=Yii::$app->runAction('queue-backend/default');
-        $this->assertEquals(1,$res['dataProvider']->getTotalCount());
-        $this->assertEquals('queue',$res['queue']->prefix);
+        $this->assertEquals(1, $res['dataProvider']->getTotalCount());
+        $this->assertEquals('queue', $res['queue']->prefix);
     }
 
     public function testView()
     {
-        $res=Yii::$app->runAction('queue-backend/default/view',['id' => 1]);
-        $this->assertEquals('下载任务',$res->catalog);
+        $res=Yii::$app->runAction('queue-backend/default/view', ['id' => 1]);
+        $this->assertEquals('下载任务', $res->catalog);
     }
 }

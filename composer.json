@@ -28,10 +28,10 @@
             "graychen\\yii2\\queue\\backend\\tests\\": "tests"
         }
     },
-    "repositories": {
-        "packagist": {
+    "repositories": [
+        {
             "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
+            "url": "https://asset-packagist.org"
         }
-    }
+    ]
 }

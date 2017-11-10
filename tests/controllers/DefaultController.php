@@ -9,10 +9,8 @@ use graychen\yii2\queue\backend\models\Queue;
 
 class DefaultController extends Controller
 {
-
-
     public function actionIndex()
-    {   
+    {
         $queue = new RedisQueue();
         $query = Queue::find();
         $dataProvider = new ActiveDataProvider([

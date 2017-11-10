@@ -1,8 +1,10 @@
 <?php
 namespace graychen\yii2\queue\backend\tests;
+
 use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
+
 /**
  * This is the base class for all yii framework unit tests.
  */
@@ -125,6 +127,4 @@ EOF;
             return;
         }
     }
-
 }
-
