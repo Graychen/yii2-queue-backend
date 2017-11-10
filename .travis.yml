@@ -14,11 +14,11 @@ cache:
     - vendor
 
 service:
-  - mysql:
-    database: test
-    username: root
-    encoding: utf8
+  - mysql
   - redis-server
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 
 install:
   - travis_retry composer self-update
@@ -28,11 +28,10 @@ install:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
-  - travis_retry mysql -e 'CREARE DATABASE test'
-
 
 script:
 - "./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
+
 after_script:
 - wget https://scrutinizer-ci.com/ocular.phar
 - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
