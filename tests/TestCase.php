@@ -11,7 +11,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->mockApplication();
+        $this->mockWebApplication();
         $this->createTestDbData();
     }
 
@@ -19,10 +19,12 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         parent::tearDown();
         $this->destroyTestDbData();
-        $this->destroyApplication();
+        $this->destroyWebApplication();
     }
 
-    protected function mockApplication($config = [], $appClass = '\yii\console\Application')
+
+
+    protected function mockWebApplication($config = [], $appClass = '\yii\web\Application')
     {
         return new $appClass(ArrayHelper::merge([
             'id' => 'testapp',
@@ -61,7 +63,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
             ],
             'modules' => [
                 'queue-backend' => [
-                    'class' => 'graychen\yii2\queue\backend\Module'
+                    'class' => 'graychen\yii2\queue\backend\Module',
+                    'controllerNamespace' => 'graychen\yii2\queue\backend\tests\controllers'
                 ]
             ]
         ], $config));
@@ -77,7 +80,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Destroys application in Yii::$app by setting it to null.
      */
-    protected function destroyApplication()
+    protected function destroyWebApplication()
     {
         if (\Yii::$app && \Yii::$app->has('session', true)) {
             \Yii::$app->session->close();
