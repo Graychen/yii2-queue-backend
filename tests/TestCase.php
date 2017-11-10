@@ -53,7 +53,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'class' => 'yii\redis\Connection',
                     'hostname' => '127.0.0.1',
                     'password' => null,
-                    'database' => 111
+                    'database' => 0
                 ],
                 'queue' => [
                     'class' => 'yii\queue\redis\Queue',
@@ -134,13 +134,13 @@ class TestCase extends \PHPUnit_Framework_TestCase
         }
         \Yii::$app = null;
     }
-/*
+
     protected function destroyTestDbData()
     {
         $db = Yii::$app->getDb();
         $db->createCommand()->dropTable('tb_queue')->execute();
     }
-*/
+
     protected function createTestDbData()
     {
         //Yii::$app->runAction('/migrate/up', ['migrationPath' => '@migrate']);
