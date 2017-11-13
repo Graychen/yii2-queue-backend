@@ -40,7 +40,9 @@ yii migrate/up --migrationPath=@graychen/yii2/queue/backend/migrations
 ```
 ## View
 ### after that,you can website `https://localhost/admin/queue/default`
-![效果图](http://ww1.sinaimg.cn/large/0060OHG5gy1flgchddsfwj318i0drabn.jpg)
+
+!["效果图"](http://ww1.sinaimg.cn/large/0060OHG5gy1flgchddsfwj318i0drabn.jpg)
+
 ## ChangeLog
 [changelog](https://github.com/Graychen/yii2-queue-backend/blob/master/CHANGELOG.md)
 
