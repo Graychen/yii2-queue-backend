@@ -13,7 +13,7 @@ abstract class Job extends BaseObject implements JobInterface
     {
         parent::init();
         Yii::$app->queue->on(Queue::EVENT_AFTER_PUSH, function ($event) {
-            $delay=$event->delay>0 ? $delay:0;
+            $delay=$event->delay>=0 ?$event->delay : 0;
             $queue = new QueueDb();
             $queue->name=$this->getName();
             $queue->catalog=$this->getCatalog();
