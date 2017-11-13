@@ -39,7 +39,7 @@ yii migrate/up --migrationPath=@graychen/yii2/queue/backend/migrations
 ]
 ```
 ## View
-### after that,you can website `https://localhost:885/admin/queue/default`
+### after that,you can website `https://localhost/admin/queue/default`
 ## ChangeLog
 [changelog](https://github.com/Graychen/yii2-queue-backend/blob/master/CHANGELOG.md)
 
