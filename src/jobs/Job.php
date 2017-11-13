@@ -18,7 +18,7 @@ abstract class Job extends BaseObject implements JobInterface
             $queue->name=$this->getName();
             $queue->catalog=$this->getCatalog();
             $queue->description=$this->getDescription();
-            $queue->exec_time=$delay;
+            $queue->exec_time=$delay + time();
             $queue->queue_id=$event->id;
             $queue->save();
         });

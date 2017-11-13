@@ -32,6 +32,17 @@ CREATE TABLE IF NOT EXISTS `tb_queue` (
 yii migrate/up --migrationPath=@graychen/yii2/queue/backend/migrations
 ```
 ## Usage
+### Config -> main.php 
+```
+'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => [
+                '@graychen/yii2/queue/backend/migrations'
+            ],
+        ],
+    ],
+```
 ### Config Module in components part
 ``` php 
 'queue' => [
