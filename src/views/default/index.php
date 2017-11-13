@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'execution_time',
                 'value' => function ($model) {
-                    return date("Y-m-d H:i:s", $model->getExecutionTime());
+                    return date("Y-m-d H:i:s", $model->exec_time);
                 }
             ],
             ['class' => 'yii\grid\ActionColumn',
