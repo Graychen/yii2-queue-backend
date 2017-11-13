@@ -6,7 +6,9 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Graychen/yii2-queue-backend/build-status/master)
-[![StyleCI](https://styleci.io/repos/109097207/shield?branch=master)](https://styleci.io/repos/109097207)This is a background for yii-queue, there are queue statistics, temporary support redis driver
+[![StyleCI](https://styleci.io/repos/109097207/shield?branch=master)](https://styleci.io/repos/109097207)
+
+This is a background for yii-queue, there are queue statistics, temporary support redis driver
 # Migrate database
 
 ## To add a lookup table to your database, following is the sql for lookup:
