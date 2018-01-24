@@ -17,7 +17,7 @@ class DefaultController extends Controller
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'queue_id' => SORT_DESC
+                    'created_at' => SORT_DESC
                 ]
             ]
         ]);
