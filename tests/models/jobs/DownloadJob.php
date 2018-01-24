@@ -3,8 +3,9 @@
 namespace graychen\yii2\queue\backend\tests\models\jobs;
 
 use graychen\yii2\queue\backend\jobs\Job;
+use yii\queue\JobInterface;
 
-class DownloadJob extends Job
+class DownloadJob extends Job implements JobInterface
 {
     public $url;
     public $file;

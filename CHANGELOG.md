@@ -2,6 +2,9 @@
 # [1.0.0](https://github.com/Graychen/yii2-queue-backend/compare/v0.2.3...v1.0.0) (2017-11-13)
 
 
+## Bug Fixes
+
+* **models** yii2-queue 2.0.2 兼容性支持
 
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/Graychen/yii2-queue-backend/compare/v0.2.0...v0.2.3) (2017-11-08)

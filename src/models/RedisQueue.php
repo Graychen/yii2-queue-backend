@@ -41,7 +41,7 @@ class RedisQueue extends Model
     public function __construct(array $config = [])
     {
         $this->getPrefix();
-        $this->serializer = Instance::ensure($this->serializer, Serializer::class);
+        $this->serializer = Instance::ensure($this->serializer, PhpSerializer::class);
         parent::__construct($config);
     }
 
