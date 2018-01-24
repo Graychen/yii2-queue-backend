@@ -1,4 +1,5 @@
 <?php
+
 namespace graychen\yii2\queue\backend\tests;
 
 use Yii;
@@ -51,8 +52,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'redis' => [
                     'class' => 'yii\redis\Connection',
                     'hostname' => 'localhost',
-                    'password' => null,
-                    'database' => 0
+                    'port' => 6379,
+                    'database' => 0,
+                    'password' => null
                 ],
                 'queue' => [
                     'class' => 'yii\queue\redis\Queue',
@@ -77,6 +79,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         return dirname(__DIR__) . '/vendor';
     }
+
     /**
      * Destroys application in Yii::$app by setting it to null.
      */
