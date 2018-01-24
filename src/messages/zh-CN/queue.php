@@ -1,6 +1,5 @@
 <?php
 
 return [
-
-    'execution_time' => '执行时间',
+    'execution_time' => '执行时间'
 ];

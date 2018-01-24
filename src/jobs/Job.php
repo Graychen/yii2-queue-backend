@@ -1,6 +1,7 @@
 <?php
 
 namespace graychen\yii2\queue\backend\jobs;
+
 use yii\base\BaseObject;
 use yii;
 use yii\queue\Queue;
@@ -12,11 +13,12 @@ abstract class Job extends BaseObject implements JobInterface
     {
         parent::init();
         Yii::$app->queue->on(Queue::EVENT_AFTER_PUSH, function ($event) {
+            $delay=$event->delay>=0 ?$event->delay : 0;
             $queue = new QueueDb();
             $queue->name=$this->getName();
             $queue->catalog=$this->getCatalog();
             $queue->description=$this->getDescription();
-            $queue->exec_time=$event->delay;
+            $queue->exec_time=$delay + time();
             $queue->queue_id=$event->id;
             $queue->save();
         });
@@ -25,16 +27,15 @@ abstract class Job extends BaseObject implements JobInterface
     /** name (任务名称)
      * @return string
      */
-    abstract function getName();
+    abstract public function getName();
 
     /** catalog (类别: 推送任务, 上传报告)
      * @return string
      */
-    abstract function getCatalog();
+    abstract public function getCatalog();
 
     /** description (队列详情)
      * @return string
      */
-    abstract function getDescription();
-
+    abstract public function getDescription();
 }

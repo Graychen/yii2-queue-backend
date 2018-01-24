@@ -1,8 +1,10 @@
 <?php
 namespace graychen\yii2\queue\backend\tests;
+
 use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
+
 /**
  * This is the base class for all yii framework unit tests.
  */
@@ -11,7 +13,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->mockApplication();
+        $this->mockWebApplication();
         $this->createTestDbData();
     }
 
@@ -19,10 +21,10 @@ class TestCase extends \PHPUnit_Framework_TestCase
     {
         parent::tearDown();
         $this->destroyTestDbData();
-        $this->destroyApplication();
+        $this->destroyWebApplication();
     }
 
-    protected function mockApplication($config = [], $appClass = '\yii\console\Application')
+    protected function mockWebApplication($config = [], $appClass = '\yii\web\Application')
     {
         return new $appClass(ArrayHelper::merge([
             'id' => 'testapp',
@@ -36,7 +38,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'class' => 'yii\db\Connection',
                     'dsn' => 'mysql:host=localhost:3306;dbname=test',
                     'username' => 'root',
-                    'password' => '206065',
+                    'password' => '',
                     'tablePrefix' => 'tb_'
                 ],
                 'i18n' => [
@@ -48,9 +50,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 ],
                 'redis' => [
                     'class' => 'yii\redis\Connection',
-                    'hostname' => 'redis',
-                    'port' => '6379',
-                    'database' => 0,
+                    'hostname' => '127.0.0.1',
+                    'password' => null,
+                    'database' => 0
                 ],
                 'queue' => [
                     'class' => 'yii\queue\redis\Queue',
@@ -61,7 +63,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
             ],
             'modules' => [
                 'queue-backend' => [
-                    'class' => 'graychen\yii2\queue\backend\Module'
+                    'class' => 'graychen\yii2\queue\backend\Module',
+                    'controllerNamespace' => 'graychen\yii2\queue\backend\tests\controllers'
                 ]
             ]
         ], $config));
@@ -77,7 +80,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Destroys application in Yii::$app by setting it to null.
      */
-    protected function destroyApplication()
+    protected function destroyWebApplication()
     {
         if (\Yii::$app && \Yii::$app->has('session', true)) {
             \Yii::$app->session->close();
@@ -102,8 +105,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 id bigint auto_increment
                     primary key,
                 queue_id int null,
-                catalog varchar(10) null,
-                name varchar(20) null,
+                catalog varchar(50) null,
+                name varchar(50) null,
                 description text null,
                 exec_time int null,
                 status smallint null,
@@ -123,4 +126,3 @@ EOF;
         }
     }
 }
-

@@ -4,7 +4,6 @@ use yii\db\Migration;
 
 class m171103_042857_queue extends Migration
 {
-
     public function up()
     {
         $tableOptions = null;
@@ -27,5 +26,4 @@ class m171103_042857_queue extends Migration
     {
         $this->dropTable('{{%queue}}');
     }
-
 }
