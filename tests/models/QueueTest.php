@@ -47,7 +47,6 @@ class QueueTest extends TestCase
         $this->assertArrayHasKey('status', $labels);
         $this->assertArrayHasKey('created_at', $labels);
         $this->assertArrayHasKey('updated_at', $labels);
-        $this->assertArrayHasKey('execution_time', $labels);
     }
 
     public function testGetExecutionTime()
