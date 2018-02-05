@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'execution_time',
+                'attribute' => 'exec_time',
                 'value' => function ($model) {
                     return date("Y-m-d H:i:s", $model->exec_time);
                 }
