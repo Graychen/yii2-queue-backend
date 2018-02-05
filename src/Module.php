@@ -39,7 +39,7 @@ class Module extends BaseModule
             'sourceLanguage' => $this->sourceLanguage,
             'basePath' => '@graychen/yii2/queue/backend/messages',
             'fileMap' => [
-                'graychen/yii2/queue/backend/message' => 'queue.php',
+                'graychen/yii2/queue/backend/queue' => 'queue.php',
             ],
         ];
     }
