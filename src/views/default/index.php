@@ -79,10 +79,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     switch ($status = $model->getStatus($model->queue_id)) {
                         case 0:
-                            return "未执行";
+                            return "等待中";
                             break;
                         case 1:
                             return "成功";
+                            break;
+                        case 2:
+                            return "正在执行";
                             break;
                         case -1:
                             return "失败";
