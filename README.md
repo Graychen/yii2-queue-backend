@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `tb_queue` (
   `catalog` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT '1',
   `description` text,
+  `log` text,
   `exec_time` int(11) DEFAULT '1',
   `status` smallint(6) DEFAULT '1',
   `created_at` int(11) DEFAULT NULL,
