@@ -16,6 +16,7 @@ class m171103_042857_queue extends Migration
             'catalog' => $this->string()->comment('类别'),
             'name' => $this->string()->notNull()->comment('任务名称'),
             'description' => $this->text()->comment('详请信息'),
+            'log' => $this->text()->comment('错误日志'),
             'exec_time' => $this->integer()->comment('执行时间'),
             'created_at' => $this->integer()->comment('队列创建时间'),
             'updated_at' => $this->integer()->comment('队列执行时间'),

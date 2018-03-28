@@ -64,8 +64,10 @@ class Queue extends ActiveRecord
 
     public function getStatus($id)
     {
-        if (Yii::$app->queue->isWaiting($id) || Yii::$app->queue->isReserved($id)) {
+        if (Yii::$app->queue->isWaiting($id)) {
             $status = 0;
+        } elseif (Yii::$app->queue->isReserved($id)) {
+            $status = 2;
         } elseif (Yii::$app->queue->isDone($id)) {
             $status = 1;
         } else {
