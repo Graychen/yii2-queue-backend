@@ -22,6 +22,14 @@ abstract class Job extends BaseObject implements JobInterface
             $queue->queue_id=$event->id;
             $queue->save();
         });
+        //增加错误日志
+        Yii::$app->queue->on(Queue::EVENT_AFTER_ERROR, function (ErrorEvent $event) {
+                if ($event->job instanceof \graychen\yii2\queue\backend\jobs\ BaseObject) {
+                    $model = Queue::findOne(['queue_id'=>$event->id]);
+                    $model->log = $event->error;
+                    $model->save();
+                }
+        });
     }
 
     /** name (任务名称)
